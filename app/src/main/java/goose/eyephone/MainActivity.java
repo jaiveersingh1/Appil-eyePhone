@@ -1,7 +1,9 @@
 package goose.eyephone;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,6 +17,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -43,8 +46,8 @@ public class MainActivity extends Activity  {
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            if(ed1.getText().toString().equals("Goose") &&//username
-                    ed2.getText().toString().equals("pantless thunder goose")) {//password
+            if(ed1.getText().toString().equals("urmom") &&//username
+                    ed2.getText().toString().equals("dotcom")) {//password
                 //do stuff
                 Toast.makeText(getApplicationContext(),"Pivoting...",Toast.LENGTH_SHORT).show();
                 dispatchTakePictureIntent();
@@ -78,7 +81,7 @@ public class MainActivity extends Activity  {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "yaBoiPic";//"JPEG_" + timeStamp + "_";
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
                 imageFileName,  /* prefix */
                 ".jpg",         /* suffix */
@@ -105,10 +108,11 @@ public class MainActivity extends Activity  {
             // Continue only if the File was successfully created
             if (photoFile != null) {
                 Uri photoURI = FileProvider.getUriForFile(this,
-                        "com.example.android.fileprovider",
+                        "goose.eyephone.fileprovider",
                         photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+
             }
         }
     }
