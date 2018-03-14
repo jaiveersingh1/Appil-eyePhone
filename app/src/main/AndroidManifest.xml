@@ -18,5 +18,6 @@
             </intent-filter>
 
         </activity>
+        <service android:name="com.backendless.AndroidService"/>
     </application>
 </manifest>
