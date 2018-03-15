@@ -7,12 +7,12 @@
     tools:context="goose.eyephone.MainActivity">
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/byAppil"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView"
-        android:layout_alignStart="@+id/textView"
-        android:layout_below="@+id/textView"
+        android:layout_alignLeft="@+id/eyePhoneTXT"
+        android:layout_alignStart="@+id/eyePhoneTXT"
+        android:layout_below="@+id/eyePhoneTXT"
         android:fontFamily="sans-serif-thin"
         android:text="by Appil"
         android:textColor="#000000"
@@ -21,7 +21,7 @@
         tools:layout_editor_absoluteY="26dp" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/eyePhoneTXT"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -39,12 +39,12 @@
         tools:layout_editor_absoluteY="26dp" />
     <!--but do you even speak italics??!??!-->
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/enterName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/textView"
+        android:layout_alignEnd="@+id/eyePhoneTXT"
         android:layout_alignLeft="@+id/imageView3"
-        android:layout_alignRight="@+id/textView"
+        android:layout_alignRight="@+id/eyePhoneTXT"
         android:layout_alignStart="@+id/imageView3"
         android:layout_below="@+id/imageView3"
         android:layout_marginTop="26dp"
@@ -59,18 +59,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/imageView"
-        android:layout_below="@+id/textView"
+        android:layout_below="@+id/eyePhoneTXT"
         android:layout_centerHorizontal="true" />
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/passwordText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/textView"
-        android:layout_alignLeft="@+id/editText"
-        android:layout_alignRight="@+id/textView"
-        android:layout_alignStart="@+id/editText"
-        android:layout_below="@+id/editText"
+        android:layout_alignEnd="@+id/eyePhoneTXT"
+        android:layout_alignLeft="@+id/enterName"
+        android:layout_alignRight="@+id/eyePhoneTXT"
+        android:layout_alignStart="@+id/enterName"
+        android:layout_below="@+id/enterName"
         android:layout_marginTop="18dp"
         android:ems="10"
         android:hint="Password"
@@ -84,8 +84,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_toLeftOf="@+id/textView4"
-        android:layout_toStartOf="@+id/textView4"
+        android:layout_toLeftOf="@+id/byAppil"
+        android:layout_toStartOf="@+id/byAppil"
         android:text="Attempts Left:"
         android:textSize="20dp" />
 
@@ -94,15 +94,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_toEndOf="@+id/textView4"
-        android:layout_toRightOf="@+id/textView4"
+        android:layout_toEndOf="@+id/byAppil"
+        android:layout_toRightOf="@+id/byAppil"
         android:text="..."
         android:textSize="25dp"
         tools:layout_editor_absoluteX="184dp"
         tools:layout_editor_absoluteY="221dp" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -111,20 +111,22 @@
         android:layout_marginLeft="51dp"
         android:layout_marginStart="51dp"
         android:layout_marginTop="22dp"
+        android:fontFamily="sans-serif-bold-thin"
         android:text="login"
         tools:layout_editor_absoluteX="182dp"
         tools:layout_editor_absoluteY="325dp" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/button"
-        android:layout_alignBottom="@+id/button"
-        android:layout_alignLeft="@+id/textView4"
-        android:layout_alignStart="@+id/textView4"
+        android:layout_alignBaseline="@+id/login"
+        android:layout_alignBottom="@+id/login"
+        android:layout_alignLeft="@+id/byAppil"
+        android:layout_alignStart="@+id/byAppil"
         android:layout_marginLeft="24dp"
         android:layout_marginStart="24dp"
+        android:fontFamily="sans-serif-bold-thin"
         android:text="Cancel"
         tools:layout_editor_absoluteX="55dp"
         tools:layout_editor_absoluteY="325dp" />
@@ -133,10 +135,10 @@
         android:id="@+id/imageView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/textView4"
-        android:layout_alignLeft="@+id/button"
-        android:layout_alignStart="@+id/button"
-        android:layout_alignTop="@+id/textView"
+        android:layout_alignBottom="@+id/byAppil"
+        android:layout_alignLeft="@+id/login"
+        android:layout_alignStart="@+id/login"
+        android:layout_alignTop="@+id/eyePhoneTXT"
         android:src="@mipmap/ic_launcher_round" />
 
 </RelativeLayout>
