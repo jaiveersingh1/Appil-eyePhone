@@ -10,7 +10,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.backendless.Backendless;
+import org.json.*;
 
+import static goose.eyephone.Defaults.API_KEY;
+import static goose.eyephone.Defaults.APPLICATION_ID;
 
 public class MainActivity extends Activity  {
     Button b1,b2;
@@ -22,7 +25,9 @@ public class MainActivity extends Activity  {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
+        Backendless.initApp(this, APPLICATION_ID, API_KEY);
 
         b1 = (Button)findViewById(R.id.button);
         ed1 = (EditText)findViewById(R.id.editText);
