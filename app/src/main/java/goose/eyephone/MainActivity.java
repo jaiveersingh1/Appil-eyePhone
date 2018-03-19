@@ -1,6 +1,7 @@
 package goose.eyephone;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -44,6 +45,8 @@ public class MainActivity extends Activity  {
                     ed2.getText().toString().equals("pantless thunder goose")) {//password
                 //do stuff
                 Toast.makeText(getApplicationContext(),"Redirecting...",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainActivity.this, LeaderboardActivity.class);
+                startActivity(intent);
             }
             else{
                 //do other stuff

@@ -21,6 +21,13 @@
             </intent-filter>
 
         </activity>
+
+        <activity android:name=".LeaderboardActivity"
+            android:label="eyePhone">
+            <intent-filter>
+                <action android:name="android.intent.action.DEFAULT" />
+            </intent-filter>
+        </activity>
         <service android:name="com.backendless.AndroidService"/>
     </application>
 </manifest>
