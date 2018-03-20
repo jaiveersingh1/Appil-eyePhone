@@ -67,10 +67,59 @@
         android:id="@+id/backButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/cameraButton"
-        android:layout_alignStart="@+id/cameraButton"
-        android:layout_below="@+id/cameraButton"
-        android:layout_marginTop="55dp"
+        android:layout_below="@+id/galleryButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
         android:fontFamily="sans-serif-bold-thin"
         android:text="Back" />
+
+    <ImageView
+        android:id="@+id/eyesOpen"
+        android:layout_width="100dp"
+        android:layout_height="250dp"
+        android:layout_alignEnd="@+id/textView6"
+        android:layout_alignLeft="@+id/textView6"
+        android:layout_alignRight="@+id/textView6"
+        android:layout_alignStart="@+id/textView6"
+        android:layout_below="@+id/backButton"
+        android:layout_marginTop="46dp"
+        android:cropToPadding="false"
+        android:scaleType="fitXY"
+        app:srcCompat="@mipmap/ic_launcher" />
+
+    <ImageView
+        android:id="@+id/eyesClosed"
+        android:layout_width = "100dp"
+        android:layout_height= "250dp"
+        android:scaleType="fitXY"
+        android:layout_alignEnd="@+id/textView7"
+        android:layout_alignLeft="@+id/textView7"
+        android:layout_alignRight="@+id/textView7"
+        android:layout_alignStart="@+id/textView7"
+        android:layout_alignTop="@+id/eyesOpen"
+        app:srcCompat="@mipmap/ic_launcher" />
+
+    <TextView
+        android:id="@+id/TextCLOSED"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textOPEN"
+        android:layout_alignBottom="@+id/textOPEN"
+        android:layout_alignEnd="@+id/galleryButton"
+        android:layout_alignRight="@+id/galleryButton"
+        android:layout_marginEnd="19dp"
+        android:layout_marginRight="19dp"
+        android:text="Closed" />
+
+    <TextView
+        android:id="@+id/textOPEN"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/cameraButton"
+        android:layout_alignRight="@+id/cameraButton"
+        android:layout_below="@+id/backButton"
+        android:layout_marginEnd="26dp"
+        android:layout_marginRight="26dp"
+        android:layout_marginTop="11dp"
+        android:text="Open" />
 </RelativeLayout>
