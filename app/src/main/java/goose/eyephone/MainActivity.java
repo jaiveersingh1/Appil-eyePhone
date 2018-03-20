@@ -42,9 +42,8 @@ public class MainActivity extends AppCompatActivity {
                     //do stuff
                     Toast.makeText(getApplicationContext(),"Pivoting...",Toast.LENGTH_SHORT).show();
                     //dispatchTakePictureIntent();
-                    setContentView(R.layout.overlay);
+                    //switches viewfinder
                     startActivity(new Intent(MainActivity.this,imageOverlay.class));
-
                 }
                 else{
                     //do other stuff

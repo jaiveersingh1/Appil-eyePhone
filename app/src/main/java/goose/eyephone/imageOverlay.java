@@ -10,6 +10,7 @@ import android.support.v4.content.FileProvider;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +26,9 @@ import java.util.Date;
 public class imageOverlay extends Activity{
     Button camera,select,back;
     String mCurrentPhotoPath;
+    private static final int PICK_IMAGE = 100;
+    Uri imageUri;
+    ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -50,7 +54,7 @@ public class imageOverlay extends Activity{
         select.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(imageOverlay.this,MainActivity.class));
+                openGallery();
             }
         });
     }
@@ -92,6 +96,20 @@ public class imageOverlay extends Activity{
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
 
             }
+        }
+    }
+
+    private void openGallery(){
+        Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        startActivityForResult(gallery, PICK_IMAGE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK && requestCode == PICK_IMAGE){
+            imageUri = data.getData();
+            imageView.setImageURI(imageUri);
         }
     }
 }
