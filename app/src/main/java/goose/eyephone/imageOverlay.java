@@ -31,6 +31,10 @@ public class imageOverlay extends Activity{
     private static final int PICK_IMAGE = 100;
     public static Uri imageUriOPEN;
     public static Uri imageUriCLOSED;
+    public static boolean isClosedUri = false;
+    public static boolean isOpenUri = false;
+    public static Bitmap op;
+    public static Bitmap cl;
 
     final int PIC_CROP = 2;
     ImageView eyesOpen;
@@ -73,15 +77,8 @@ public class imageOverlay extends Activity{
         ready.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //SO FAR THIS DOSENT WORK
-                Intent image = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                image.putExtra("crop", "true");
-                image.putExtra("aspectX", 1);
-                image.putExtra("aspectY", 1);
-                image.putExtra("outputX", 200);
-                image.putExtra("outputY", 200);
-                image.putExtra("return-data", "true");
-                startActivityForResult(image, PIC_CROP);
+                setContentView(R.layout.eyes);
+                switcher fragment = (switcher) getFragmentManager().findFragmentById(R.id.switcher);
             }
         });
     }
@@ -92,16 +89,20 @@ public class imageOverlay extends Activity{
     }
 
     @Override
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
         if(!isOpenDone){//first starting with eyes open
             if(resultCode == RESULT_OK && requestCode == PICK_IMAGE){
                 imageUriOPEN = data.getData();
                 eyesOpen.setImageURI(imageUriOPEN);
+                isOpenUri = true;
             }
             else if (requestCode == 5327){
                 Bitmap Bitmap = (Bitmap)data.getExtras().get("data");
                 eyesOpen.setImageBitmap(Bitmap);
+                isOpenUri = false;
+                op = Bitmap;
             }
             isOpenDone = true;//toggles the imageView
         }
@@ -109,18 +110,16 @@ public class imageOverlay extends Activity{
             if(resultCode == RESULT_OK && requestCode == PICK_IMAGE){
                 imageUriCLOSED = data.getData();
                 eyesClosed.setImageURI(imageUriCLOSED);
+                isClosedUri = true;
             }
             else if (requestCode == 5327){
                 Bitmap Bitmap = (Bitmap)data.getExtras().get("data");
+                cl = Bitmap;
                 eyesClosed.setImageBitmap(Bitmap);
+                isClosedUri = false;
             }
             isOpenDone = false;//toggles the imageView
             ready.setVisibility(View.VISIBLE);//shows the button for next step
-        }
-        if(requestCode == 2 && resultCode == RESULT_OK && data != null){
-            Bundle extras = data.getExtras();
-            Bitmap image = extras.getParcelable("data");
-            eyesOpen.setImageBitmap(image);
         }
     }
 }
