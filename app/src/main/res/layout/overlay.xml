@@ -122,4 +122,33 @@
         android:layout_marginRight="26dp"
         android:layout_marginTop="11dp"
         android:text="Open" />
+
+    <Button
+        android:id="@+id/readyButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/backButton"
+        android:layout_alignRight="@+id/backButton"
+        android:layout_below="@+id/eyesOpen"
+        android:layout_marginEnd="6dp"
+        android:layout_marginRight="6dp"
+        android:layout_marginTop="14dp"
+        android:text="Ready?" />
+
+    <TextView
+        android:id="@+id/setupText"
+        android:layout_width="250dp"
+        android:layout_height="80dp"
+        android:layout_above="@+id/textView7"
+        android:layout_alignLeft="@+id/textOPEN"
+        android:layout_alignStart="@+id/textOPEN"
+        android:layout_marginBottom="6dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:fontFamily="sans-serif"
+        android:text="Initialize"
+        android:textAllCaps="true"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="50dp"
+        android:textStyle="italic" />
 </RelativeLayout>

@@ -1,6 +1,7 @@
 package goose.eyephone;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -25,10 +26,13 @@ import java.util.Date;
  */
 //¯\_(ツ)_/¯
 public class imageOverlay extends Activity{
-    Button camera,select,back;
+    Button camera,select,back,ready;
     String mCurrentPhotoPath;
     private static final int PICK_IMAGE = 100;
-    Uri imageUri;
+    public static Uri imageUriOPEN;
+    public static Uri imageUriCLOSED;
+
+    final int PIC_CROP = 2;
     ImageView eyesOpen;
     ImageView eyesClosed;
     boolean isOpenDone = false;
@@ -42,6 +46,9 @@ public class imageOverlay extends Activity{
         back = (Button)findViewById(R.id.backButton);
         eyesOpen = (ImageView)findViewById(R.id.eyesOpen);
         eyesClosed = (ImageView)findViewById(R.id.eyesClosed);
+        ready = (Button)findViewById(R.id.readyButton);
+
+        ready.setVisibility(View.GONE);
 
         camera.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,7 +61,7 @@ public class imageOverlay extends Activity{
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(imageOverlay.this,MainActivity.class));
+                startActivity(new Intent(imageOverlay.this, MainActivity.class));
             }
         });
         select.setOnClickListener(new View.OnClickListener() {
@@ -63,45 +70,20 @@ public class imageOverlay extends Activity{
                 openGallery();
             }
         });
-    }
-
-    private File createImageFile() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "img";//"JPEG_" + timeStamp + "_";
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",    /* suffix */
-                storageDir      /* directory */
-        );
-
-        // Save a file: path for use with ACTION_VIEW intents
-        mCurrentPhotoPath = image.getAbsolutePath();
-        return image;
-    }
-    static final int REQUEST_TAKE_PHOTO = 1;
-
-    private void dispatchTakePictureIntent() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // Ensure that there's a camera activity to handle the intent
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            // Create the File where the photo should go
-            File photoFile = null;
-            try {
-                photoFile = createImageFile();
-            } catch (IOException ex) {
-                // Error occurred while creating the File
+        ready.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //SO FAR THIS DOSENT WORK
+                Intent image = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                image.putExtra("crop", "true");
+                image.putExtra("aspectX", 1);
+                image.putExtra("aspectY", 1);
+                image.putExtra("outputX", 200);
+                image.putExtra("outputY", 200);
+                image.putExtra("return-data", "true");
+                startActivityForResult(image, PIC_CROP);
             }
-            // Continue only if the File was successfully created
-            if (photoFile != null) {
-                Uri photoURI = FileProvider.getUriForFile(this,
-                        "goose.eyephone.fileprovider",
-                        photoFile);
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
-            }
-        }
+        });
     }
 
     private void openGallery(){
@@ -114,8 +96,8 @@ public class imageOverlay extends Activity{
         super.onActivityResult(requestCode, resultCode, data);
         if(!isOpenDone){//first starting with eyes open
             if(resultCode == RESULT_OK && requestCode == PICK_IMAGE){
-                imageUri = data.getData();
-                eyesOpen.setImageURI(imageUri);
+                imageUriOPEN = data.getData();
+                eyesOpen.setImageURI(imageUriOPEN);
             }
             else if (requestCode == 5327){
                 Bitmap Bitmap = (Bitmap)data.getExtras().get("data");
@@ -125,15 +107,20 @@ public class imageOverlay extends Activity{
         }
         else {
             if(resultCode == RESULT_OK && requestCode == PICK_IMAGE){
-                imageUri = data.getData();
-                eyesClosed.setImageURI(imageUri);
+                imageUriCLOSED = data.getData();
+                eyesClosed.setImageURI(imageUriCLOSED);
             }
             else if (requestCode == 5327){
                 Bitmap Bitmap = (Bitmap)data.getExtras().get("data");
                 eyesClosed.setImageBitmap(Bitmap);
             }
             isOpenDone = false;//toggles the imageView
-
+            ready.setVisibility(View.VISIBLE);//shows the button for next step
+        }
+        if(requestCode == 2 && resultCode == RESULT_OK && data != null){
+            Bundle extras = data.getExtras();
+            Bitmap image = extras.getParcelable("data");
+            eyesOpen.setImageBitmap(image);
         }
     }
 }
