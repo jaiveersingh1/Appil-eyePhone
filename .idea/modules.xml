@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Appil-eyePhone.iml" filepath="$PROJECT_DIR$/Appil-eyePhone.iml" />
       <module fileurl="file://G:\Documents\Android\Projects\eyePhone\Appil-eyePhone.iml" filepath="G:\Documents\Android\Projects\eyePhone\Appil-eyePhone.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/eyePhone.iml" filepath="$PROJECT_DIR$/eyePhone.iml" />
       <module fileurl="file://C:\Users\silvera94198\Documents\eyePhone\Appil-eyePhone\eyePhone.iml" filepath="C:\Users\silvera94198\Documents\eyePhone\Appil-eyePhone\eyePhone.iml" />
     </modules>
   </component>

@@ -4,15 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="goose.eyephone.MainActivity">
+    tools:context="goose.eyephone.imageOverlay">
 
     <!--but do you even speak italics??!??!-->
 
-    <fragment android:name="goose.eyephone.switcher"
-        android:id="@+id/switcher"
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
 
     <TextView
         android:id="@+id/textView6"

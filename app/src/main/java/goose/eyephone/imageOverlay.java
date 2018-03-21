@@ -1,6 +1,7 @@
 package goose.eyephone;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -8,7 +9,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.FileProvider;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,18 +33,16 @@ import java.util.Date;
 //¯\_(ツ)_/¯
 public class imageOverlay extends Activity{
     Button camera,select,back,ready;
-    String mCurrentPhotoPath;
     private static final int PICK_IMAGE = 100;
     public static Uri imageUriOPEN;
     public static Uri imageUriCLOSED;
     public static boolean isClosedUri = false;
     public static boolean isOpenUri = false;
-    public static Bitmap op;
-    public static Bitmap cl;
+    volatile private static Bitmap op;
+    volatile private static Bitmap cl;
 
     final int PIC_CROP = 2;
-    ImageView eyesOpen;
-    ImageView eyesClosed;
+    ImageView eyesOpen, eyesClosed, eyesImg;
     boolean isOpenDone = false;
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -51,7 +55,7 @@ public class imageOverlay extends Activity{
         eyesOpen = (ImageView)findViewById(R.id.eyesOpen);
         eyesClosed = (ImageView)findViewById(R.id.eyesClosed);
         ready = (Button)findViewById(R.id.readyButton);
-
+        eyesImg = (ImageView)findViewById(R.id.eyes);
         ready.setVisibility(View.GONE);
 
         camera.setOnClickListener(new View.OnClickListener() {
@@ -77,8 +81,8 @@ public class imageOverlay extends Activity{
         ready.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setContentView(R.layout.eyes);
-                switcher fragment = (switcher) getFragmentManager().findFragmentById(R.id.switcher);
+                setContentView(R.layout.fragment_eyes);
+                Test1();
             }
         });
     }
@@ -99,10 +103,10 @@ public class imageOverlay extends Activity{
                 isOpenUri = true;
             }
             else if (requestCode == 5327){
-                Bitmap Bitmap = (Bitmap)data.getExtras().get("data");
-                eyesOpen.setImageBitmap(Bitmap);
+                Bitmap bitmap = (Bitmap)data.getExtras().get("data");
+                op = bitmap;
+                eyesOpen.setImageBitmap(op);
                 isOpenUri = false;
-                op = Bitmap;
             }
             isOpenDone = true;//toggles the imageView
         }
@@ -113,13 +117,37 @@ public class imageOverlay extends Activity{
                 isClosedUri = true;
             }
             else if (requestCode == 5327){
-                Bitmap Bitmap = (Bitmap)data.getExtras().get("data");
-                cl = Bitmap;
-                eyesClosed.setImageBitmap(Bitmap);
+                Bitmap bitmap = (Bitmap)data.getExtras().get("data");
+                cl = bitmap;
+                eyesClosed.setImageBitmap(cl);
                 isClosedUri = false;
             }
             isOpenDone = false;//toggles the imageView
             ready.setVisibility(View.VISIBLE);//shows the button for next step
         }
+    }
+    private static Thread myThread; //this is the code I got from the tutorial
+    private static boolean ThreadsRunning;
+    public void Test1(){
+        ThreadsRunning = true;
+        eyesImg = (ImageView)findViewById(R.id.eyes);
+        eyesImg.buildDrawingCache();
+        myThread = new Thread(){
+            public void run() {
+                while (ThreadsRunning){
+                    eyesImg.setImageBitmap(op);
+                    eyesImg.invalidate();
+                    try {Thread.sleep(800);}
+                    catch (InterruptedException ex) {Log.e("TAG", "Thread Sleep Error", ex);}
+                    eyesImg.setImageBitmap(cl);
+                    eyesImg.invalidate();
+                    try{Thread.sleep(100);}
+                    catch (InterruptedException ex){Log.e("TAG", "Thread Sleep Error", ex);}
+                }
+            }
+        };
+
+        myThread.start();
+        //ThreadsRunning = false; #this stops the thread
     }
 }

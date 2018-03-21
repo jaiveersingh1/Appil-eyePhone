@@ -66,4 +66,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+    protected void switchFragments(){
+        eyesFragment eyeSwitcher = new eyesFragment();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.all, eyeSwitcher);
+        ft.commit();
+    }
 }
