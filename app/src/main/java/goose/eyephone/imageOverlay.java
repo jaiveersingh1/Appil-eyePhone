@@ -25,23 +25,25 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
  * Created by silvera94198 on 3/7/2018.
  */
 //¯\_(ツ)_/¯
-public class imageOverlay extends Activity{
+public class imageOverlay extends Activity implements threadLock{
     Button camera,select,back,ready;
     private static final int PICK_IMAGE = 100;
-    public static Uri imageUriOPEN;
-    public static Uri imageUriCLOSED;
-    public static boolean isClosedUri = false;
-    public static boolean isOpenUri = false;
+    volatile private static Uri imageUriOPEN;
+    volatile private static Uri imageUriCLOSED;
     volatile private static Bitmap op;
     volatile private static Bitmap cl;
+    ArrayList<Bitmap> BitListOP = new ArrayList<>();//list of old OPen bitmaps
+    ArrayList<Bitmap> BitListCL = new ArrayList<>();//list of old CLosed bitmaps
+    private static Thread myThread; //this is the code I got from the tutorial
+    private static boolean ThreadsRunning;
 
-    final int PIC_CROP = 2;
     ImageView eyesOpen, eyesClosed, eyesImg;
     boolean isOpenDone = false;
     @Override
@@ -82,53 +84,62 @@ public class imageOverlay extends Activity{
             @Override
             public void onClick(View v) {
                 setContentView(R.layout.fragment_eyes);
-                Test1();
+                threadTest();
             }
         });
     }
 
-    private void openGallery(){
+    public void openGallery(){
         Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
         startActivityForResult(gallery, PICK_IMAGE);
     }
 
     @Override
 
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
         if(!isOpenDone){//first starting with eyes open
-            if(resultCode == RESULT_OK && requestCode == PICK_IMAGE){
+            if(resultCode == RESULT_OK && requestCode == PICK_IMAGE ){
                 imageUriOPEN = data.getData();
+                try {
+                    op = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUriOPEN);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 eyesOpen.setImageURI(imageUriOPEN);
-                isOpenUri = true;
             }
             else if (requestCode == 5327){
                 Bitmap bitmap = (Bitmap)data.getExtras().get("data");
                 op = bitmap;
                 eyesOpen.setImageBitmap(op);
-                isOpenUri = false;
             }
             isOpenDone = true;//toggles the imageView
+            BitListOP.add(op);
         }
         else {
             if(resultCode == RESULT_OK && requestCode == PICK_IMAGE){
                 imageUriCLOSED = data.getData();
+                try {
+                    cl = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUriCLOSED);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 eyesClosed.setImageURI(imageUriCLOSED);
-                isClosedUri = true;
             }
             else if (requestCode == 5327){
                 Bitmap bitmap = (Bitmap)data.getExtras().get("data");
                 cl = bitmap;
                 eyesClosed.setImageBitmap(cl);
-                isClosedUri = false;
             }
             isOpenDone = false;//toggles the imageView
             ready.setVisibility(View.VISIBLE);//shows the button for next step
+            BitListCL.add(cl);
         }
+        if(BitListOP.size() > 5) BitListOP.clear();//reduces memory hogging
+        if(BitListCL.size() > 5) BitListCL.clear();//better for optimization
+
     }
-    private static Thread myThread; //this is the code I got from the tutorial
-    private static boolean ThreadsRunning;
-    public void Test1(){
+    public void threadTest(){
         ThreadsRunning = true;
         eyesImg = (ImageView)findViewById(R.id.eyes);
         eyesImg.buildDrawingCache();
@@ -137,11 +148,12 @@ public class imageOverlay extends Activity{
                 while (ThreadsRunning){
                     eyesImg.setImageBitmap(op);
                     eyesImg.invalidate();
-                    try {Thread.sleep(800);}
-                    catch (InterruptedException ex) {Log.e("TAG", "Thread Sleep Error", ex);}
+                    try {Thread.sleep(950);}
+                    catch (InterruptedException ex) {
+                        Log.e("TAG", "Thread Sleep Error", ex);}
                     eyesImg.setImageBitmap(cl);
                     eyesImg.invalidate();
-                    try{Thread.sleep(100);}
+                    try{Thread.sleep(80);}
                     catch (InterruptedException ex){Log.e("TAG", "Thread Sleep Error", ex);}
                 }
             }
